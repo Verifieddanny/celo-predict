@@ -3,15 +3,11 @@
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Menu, ExternalLink } from "lucide-react"
+import { useAdminEvents } from "@/hooks/useAdminEvents";
+import { useEffect, useState } from "react";
 
-import { Button } from "@/components/ui/button"
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-import { WalletConnectButton } from "@/components/connect-button"
+import { ConnectButton } from "@/components/connect-button"
+import { useAccount } from "wagmi"
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -19,84 +15,61 @@ const navLinks = [
 ]
 
 export function Navbar() {
-  const pathname = usePathname()
-  
+  const { checkIsOwner } = useAdminEvents();
+  const [isOwner, setIsOwner] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const run = async () => {
+      const ok = await checkIsOwner();
+      setIsOwner(ok);
+    };
+    void run();
+  }, [checkIsOwner]);
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4">
-        <div className="flex items-center gap-2">
-          {/* Mobile menu button */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-80">
-              <div className="flex items-center gap-2 mb-8">
+    <nav className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/20 px-3 py-2.5 backdrop-blur-xl">
+      {/* Left side - logo and brand */}
+      <div className="flex items-center gap-2">
+        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#35D07F] to-[#FFD166] text-[11px] font-bold text-slate-900 shadow-sm">
+          CP
+        </div>
 
-                <span className="font-bold text-lg">
-                  my-minipay-app
-                </span>
-              </div>
-              <nav className="flex flex-col gap-4">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    target={link.external ? "_blank" : undefined}
-                    rel={link.external ? "noopener noreferrer" : undefined}
-                    className={`flex items-center gap-2 text-base font-medium transition-colors hover:text-primary ${
-                      pathname === link.href ? "text-foreground" : "text-foreground/70"
-                    }`}
-                  >
-                    {link.name}
-                    {link.external && <ExternalLink className="h-4 w-4" />}
-                  </Link>
-                ))}
-                <div className="mt-6 pt-6 border-t">
-                  <Button asChild className="w-full">
-                    <WalletConnectButton />
-                  </Button>
-                </div>
-              </nav>
-            </SheetContent>
-          </Sheet>
+        <div className="flex flex-col leading-none">
+          <span className="text-sm font-semibold text-slate-50">
+            CeloPredict
+          </span>
+          <span className="text-[10px] text-slate-400">
+            Play to predict
+          </span>
+        </div>
+      </div>
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+      {/* Right side - compact actions */}
+      <div className="flex items-center gap-1">
+        {/* Links as small pills for mobile */}
+        <div className="flex items-center gap-1 text-[11px]">
+          {isOwner && (
+            <Link
+              href="/admin"
+              className="rounded-full border border-white/15 bg-white/5 px-2 py-1 text-[10px] text-slate-200 hover:border-[#35D07F]/70"
+            >
+              Admin
+            </Link>
+          )}
 
-            <span className="hidden font-bold text-xl sm:inline-block">
-              my-minipay-app
-            </span>
+          <Link
+            href="/me"
+            className="rounded-full border border-white/15 bg-white/5 px-2 py-1 text-[10px] text-slate-200 hover:border-[#35D07F]/70"
+          >
+            My bets
           </Link>
         </div>
-        
-        {/* Desktop navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              target={link.external ? "_blank" : undefined}
-              rel={link.external ? "noopener noreferrer" : undefined}
-              className={`flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-primary ${
-                pathname === link.href
-                  ? "text-foreground"
-                  : "text-foreground/70"
-              }`}
-            >
-              {link.name}
-              {link.external && <ExternalLink className="h-4 w-4" />}
-            </Link>
-          ))}
-          
-          <div className="flex items-center gap-3">
-            <WalletConnectButton />
-          </div>
-        </nav>
+
+        {/* Wallet button kept tight for mobile */}
+        <div className="ml-1">
+          <ConnectButton />
+        </div>
       </div>
-    </header>
+    </nav>
   )
 }
