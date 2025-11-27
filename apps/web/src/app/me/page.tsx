@@ -82,6 +82,7 @@ export default function MyPredictionsPage() {
     }, [isSuccess, refresh]);
 
 
+
     if (!address) {
         return (
             <div className="min-h-screen bg-linear-to-b from-[#050816] via-[#050816] to-[#020617] text-slate-50">
