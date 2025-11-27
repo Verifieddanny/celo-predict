@@ -326,20 +326,9 @@ Admin UI (summary):
   * RainbowKit with `darkTheme` so the modal matches the dark UI
   * `connectorsForWallets` with `injectedWallet` so MiniPay is used automatically
 
-* On mount, the `WalletProviderInner` checks:
+* On mount
 
-  ```ts
-  if (window.ethereum && window.ethereum.isMiniPay) {
-    const injectedConnector = connectors.find((c) => c.id === "injected");
-    if (injectedConnector) {
-      connect({ connector: injectedConnector });
-    }
-  }
-  ```
-
-* The `ConnectButton` hides itself in MiniPay if desired, since MiniPay can auto connect.
-
-* The MiniPay top up pill on the home page links to:
+* The MiniPay top up pill is diplayed on the home page which links to:
 
   ```text
   https://minipay.opera.com/add_cash
