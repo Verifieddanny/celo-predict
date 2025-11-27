@@ -8,7 +8,7 @@ import {
   EventInfo,
 } from "../lib/celoPredict";
 import { wagmiConfig } from "@/components/wallet-provider";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export type MyPrediction = {
   eventId: number;
@@ -26,7 +26,7 @@ export function useMyPredictions() {
   const [error, setError] = useState<Error | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const refresh = () => setRefreshKey((x) => x + 1);
+  const refresh = useCallback(() => setRefreshKey((x) => x + 1), []);
 
   useEffect(() => {
     const run = async () => {
