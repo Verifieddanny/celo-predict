@@ -1,6 +1,6 @@
 # CeloPredict
 
-CeloPredict is a mobile-first prediction market built on Celo Sepolia where users can:
+CeloPredict is a mobile-first prediction market built on Celo Sepolia Testnet where users can:
 
 - Join community pools on football and crypto
 - Stake CELO on home / draw / away outcomes
