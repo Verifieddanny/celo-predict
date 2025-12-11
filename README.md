@@ -62,6 +62,9 @@ Deployed contract (Celo Sepolia):
 
 ##### 0xd60dD40EBB2b0Aec09445bAEdE0f4d6f3C176EEE
 
+Deployed contract (Celo Mainnet):
+##### 0x5e05D72b619AB64182e530346Fd463ec7512D6a6
+
 This address is used by the frontend. If you redeploy, update the address in the web app.
 
 ### 2.2. Prerequisites

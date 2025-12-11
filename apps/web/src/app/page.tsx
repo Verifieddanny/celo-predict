@@ -31,7 +31,7 @@ export default function HomePage() {
             {/* Top pill and tiny label */}
             <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/30 px-3 py-1 text-[10px] text-slate-300">
               <span className="h-1.5 w-1.5 rounded-full bg-[#35D07F]" />
-              Live on Celo Sepolia, mobile first
+              Live on Celo Mainnet, mobile first
             </div>
 
             {/* Main heading */}
